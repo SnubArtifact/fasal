@@ -44,12 +44,15 @@ export function Button({
   variant = 'primary',
   disabled,
   type = 'button',
+  arrow,
 }: {
   children: ReactNode;
   onClick?: () => void;
   variant?: BtnVariant;
   disabled?: boolean;
   type?: 'button' | 'submit';
+  /** Trailing dark square with an arrow, as on the reference's CTAs. */
+  arrow?: boolean;
 }) {
   return (
     <button
@@ -59,7 +62,36 @@ export function Button({
       disabled={disabled}
     >
       {children}
+      {arrow && (
+        <span className="arrowchip" aria-hidden="true">
+          ↗
+        </span>
+      )}
     </button>
+  );
+}
+
+/** Text-left, landscape-right row — the reference's core card pattern. */
+export function Feature({
+  title,
+  text,
+  scene,
+  forest,
+}: {
+  title: string;
+  text: string;
+  scene: ReactNode;
+  /** Deep-forest emphasis, as on "Built for Scale". */
+  forest?: boolean;
+}) {
+  return (
+    <div className={`feature ${forest ? 'feature--forest' : ''}`}>
+      <div className="feature__body">
+        <p className="feature__title">{title}</p>
+        <p className="feature__text">{text}</p>
+      </div>
+      {scene}
+    </div>
   );
 }
 

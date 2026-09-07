@@ -137,12 +137,29 @@ src/
 The explanation is generated from the same numbers the verdict was computed
 from, so the words cannot drift away from the arithmetic.
 
-## Kiosk constraints
+## Design
 
-Shared village screen, so: nothing under 18px, no touch target under 64px, one
-question per screen, no typing except the Farmer ID. Every screen carries a
-footnote saying why the app is asking. Status is never colour alone — each
-verdict chip pairs an icon with words.
+Editorial and landscape-led: sage-to-forest greens, off-white cards with
+hairline borders on a pale ground, light display type with a serif italic
+accent, deep-forest cards for emphasis, and full-bleed scenery behind the
+moments that matter — the welcome and the verdict.
+
+**The scenery is inline SVG, not photography.** A village kiosk cannot depend
+on fetching image assets; connectivity is the first thing to go. So
+[scenery.tsx](src/components/scenery.tsx) draws five layered landscapes —
+`hills`, `valley`, `field`, `ridge`, `terrace` — at a few hundred bytes each,
+identical every render and sharp at any size.
+
+Where the editorial style and the kiosk disagree, the kiosk wins:
+
+| Reference style | What was kept | Why |
+| --- | --- | --- |
+| Thin type at small sizes | Body ≥17px, light weights only for large display text | Sunlight and reading glasses |
+| Compact tap targets | 68px on everything you press | Standing, calloused fingers |
+| Colour-coded status | Colour **and** an icon **and** the word | Colour alone excludes some readers |
+
+Every screen still carries a footnote saying why the app is asking, and one
+question per screen with no typing except the Farmer ID.
 
 ## Language
 

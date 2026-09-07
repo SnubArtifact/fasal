@@ -308,6 +308,12 @@ export function CheckingScreen({ onDone }: { onDone: () => void }) {
           );
         })}
       </ul>
+      {/* Large light numerals, as on the reference's "01/04" card. */}
+      <div className="numeral" style={{ marginTop: 26 }} aria-hidden="true">
+        {String(Math.min(stage + 1, CHECK_STEPS.length)).padStart(2, '0')}
+        <small>/{String(CHECK_STEPS.length).padStart(2, '0')}</small>
+      </div>
+
       <p className="sr-only" role="status">
         {stage >= CHECK_STEPS.length ? t('check.title') : t(CHECK_STEPS[stage])}
       </p>

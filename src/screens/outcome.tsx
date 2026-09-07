@@ -6,8 +6,9 @@ import {
   FactRow,
   Option,
   Screen,
-  VerdictBanner,
+  VERDICT_MARK,
 } from '../components/ui';
+import { Scene, type SceneVariant } from '../components/scenery';
 import { useT, type TKey } from '../i18n';
 import { PARAMS, assessAtDistance } from '../engine/assess';
 import {
@@ -25,6 +26,19 @@ const VERDICT_TITLE: Record<Verdict, TKey> = {
   approved: 'res.approved',
   needs_review: 'res.review',
   not_approved: 'res.denied',
+};
+
+/* Short label for the pill, and which landscape suits each outcome. */
+const VERDICT_PILL: Record<Verdict, TKey> = {
+  approved: 'verdict.approved',
+  needs_review: 'verdict.review',
+  not_approved: 'verdict.denied',
+};
+
+const VERDICT_SCENE: Record<Verdict, SceneVariant> = {
+  approved: 'field',
+  needs_review: 'valley',
+  not_approved: 'ridge',
 };
 
 /* ------------------------------------------ Shared evidence presentation */
@@ -102,7 +116,16 @@ export function ResultScreen({
 
   return (
     <Screen>
-      <VerdictBanner verdict={assessment.verdict} text={t(VERDICT_TITLE[assessment.verdict])} />
+      {/* Landscape hero carrying the verdict, with the status as a pill so it
+          is never communicated by colour alone. */}
+      <Scene variant={VERDICT_SCENE[assessment.verdict]} tall>
+        <span className={`statuspill statuspill--${assessment.verdict}`}>
+          <span aria-hidden="true">{VERDICT_MARK[assessment.verdict]}</span>
+          {t(VERDICT_PILL[assessment.verdict])}
+        </span>
+        <div className="scene__spacer" />
+        <h1 className="scene__title">{t(VERDICT_TITLE[assessment.verdict])}</h1>
+      </Scene>
 
       <p className="eyebrow">{t('res.found')}</p>
       <EvidenceSet draft={draft} evidence={evidence} assessment={assessment} />

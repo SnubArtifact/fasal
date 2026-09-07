@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { Button, FactRow, Option, Screen, SearchBox } from '../components/ui';
+import { Button, FactRow, Feature, Option, Screen, SearchBox } from '../components/ui';
+import { Scene, Thumb } from '../components/scenery';
 import { LANGUAGES, getRecentLanguages, translate, useT } from '../i18n';
 import { FARMERS, VILLAGES, getFarmer, getVillage } from '../data/registry';
 import type { Farmer, LangCode, Village } from '../types';
@@ -86,47 +87,52 @@ export function WelcomeScreen({
   onBegin: () => void;
   onStatus: () => void;
 }) {
-  const { t } = useT();
+  const { t, lang } = useT();
+
+  /* The serif italic accent only reads well in Latin script, so Hindi keeps
+     the plain wordmark rather than a form Devanagari has no equivalent for. */
+  const wordmark =
+    lang === 'hi' ? (
+      t('welcome.name')
+    ) : (
+      <>
+        Fasal<span className="accent">Nyay</span>
+      </>
+    );
+
   return (
     <main className="screen">
-      <div style={{ textAlign: 'center', marginBottom: 26 }}>
-        <div
-          aria-hidden="true"
-          style={{
-            width: 96,
-            height: 96,
-            margin: '0 auto 16px',
-            borderRadius: 28,
-            display: 'grid',
-            placeItems: 'center',
-            fontSize: '3rem',
-            background: 'linear-gradient(145deg, var(--wheat) 0%, var(--wheat-dark) 100%)',
-            boxShadow: 'var(--shadow-2)',
-          }}
-        >
-          🌾
-        </div>
-        <h1 className="hero" style={{ marginBottom: 4 }}>
-          {t('welcome.name')}
-        </h1>
-        <p className="lead" style={{ marginBottom: 0 }}>
+      <Scene variant="valley" tall>
+        <p className="scene__sub" style={{ margin: 0, opacity: 0.9 }}>
           {t('welcome.sub')}
         </p>
-      </div>
+        <div className="scene__spacer" />
+        <h1 className="scene__title">{wordmark}</h1>
+        <p className="scene__sub">{t('welcome.body')}</p>
+      </Scene>
 
-      <div className="card card--flat">
-        <p style={{ margin: 0 }}>{t('welcome.body')}</p>
-      </div>
-
-      <div className="card">
-        <FactRow icon="🌾" label="" value={t('welcome.p1')} />
-        <FactRow icon="🔍" label="" value={t('welcome.p2')} />
-        <FactRow icon="🤝" label="" value={t('welcome.p3')} />
-      </div>
+      <Feature
+        title={t('welcome.p1')}
+        text={t('welcome.p1sub')}
+        scene={<Thumb variant="hills" />}
+      />
+      <Feature
+        title={t('welcome.p2')}
+        text={t('welcome.p2sub')}
+        scene={<Thumb variant="field" />}
+        forest
+      />
+      <Feature
+        title={t('welcome.p3')}
+        text={t('welcome.p3sub')}
+        scene={<Thumb variant="terrace" />}
+      />
 
       <div className="screen__foot">
         <div className="btnstack">
-          <Button onClick={onBegin}>{t('welcome.begin')}</Button>
+          <Button onClick={onBegin} arrow>
+            {t('welcome.begin')}
+          </Button>
           <Button variant="secondary" onClick={onStatus}>
             {t('welcome.status')}
           </Button>
