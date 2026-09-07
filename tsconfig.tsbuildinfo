@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/types.ts","./src/vite-env.d.ts","./src/components/ui.tsx","./src/data/registry.ts","./src/engine/assess.test.ts","./src/engine/assess.ts","./src/engine/explain.ts","./src/i18n/en.ts","./src/i18n/hi.ts","./src/i18n/index.ts","./src/screens/claim.tsx","./src/screens/intake.tsx","./src/screens/outcome.tsx"],"version":"5.9.3"}
